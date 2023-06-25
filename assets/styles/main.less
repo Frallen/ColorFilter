@@ -2,6 +2,9 @@
 @import "_var";
 @import "_mixins";
 @import "_fonts";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 html {
   font-size: 16px;
@@ -81,16 +84,6 @@ h3 {
   }
 }
 
-.badge {
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 17px;
-  color: #fff;
-  .br(5px);
-  padding: 5px 9px;
-  margin: 5px 0 0 0;
-  text-align: center;
-}
 
 .form {
   display: flex;
@@ -99,7 +92,6 @@ h3 {
   &-title {
     display: block;
     font-size: 2em;
-    color: @black;
     margin: 0 0 1em 0;
     text-align: center;
     font-weight: 700;
@@ -117,7 +109,6 @@ h3 {
         display: block;
         font-size: 1.4em;
         font-weight: 500;
-        color: @black;
         margin: 0 0 13px 0;
         user-select: none;
       }
@@ -148,14 +139,6 @@ h3 {
       width: 100%;
     }
 
-    .type-form {
-      cursor: pointer;
-      text-align: center;
-      font-size: 1.1em;
-      color: @purple;
-      margin: 1.1em 0 0;
-      user-select: none;
-    }
   }
 
   .error {
@@ -163,13 +146,11 @@ h3 {
     font-size: 1.2em;
     font-weight: 500;
     margin: 10px 0 0 0;
-    color: @red;
   }
 
 }
 
-.input,
-.connect-input {
+.input{
   .br(5px);
   outline: none;
   display: block;
@@ -271,54 +252,5 @@ h3 {
 }
 
 
-
-.checkbox {
-  input:checked + .icon {
-    background: url("/checkbox-checked.png");
-    .trs(0.3s);
-  }
-
-  .icon {
-    background: url("/checkbox.png");
-  }
-}
-
-.radio {
-  input:checked + .icon {
-    background: url("/radio-checkbox-checked.png");
-    .trs(0.3s);
-  }
-
-  .icon {
-    .br(10px);
-    background: url("/radio-checkbox.png");
-  }
-}
-
-.checkbox, .radio {
-  position: relative;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-
-  input {
-    width: 0;
-    visibility: hidden;
-    opacity: 0;
-  }
-
-  .icon {
-    height: 16px;
-    width: 16px;
-    min-width: 16px;
-    min-height: 16px;
-    .trs(0.3s);
-    background-repeat: no-repeat;
-  }
-
-  .text {
-    margin: 0 0 0 10px;
-  }
-}
 
 

@@ -4,6 +4,12 @@ export default defineNuxtConfig({
         dirs: ["store", "types"],
     },
     css: ["@/assets/styles/main.less"],
+    postcss: {
+        plugins: {
+            tailwindcss: {},
+            autoprefixer: {},
+        },
+    },
     modules: [
         ["nuxt-icon"],
         ["@vueuse/nuxt"],
