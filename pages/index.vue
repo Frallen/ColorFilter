@@ -1,6 +1,6 @@
 <template>
   <div class="index flex flex-col items-center justify-center">
-    <div class="index-body shadow-2xl rounded-md px-4 py-4">
+    <div class="index-body bg-white border-dashed border-2	 shadow-2xl rounded-md px-4 py-4">
       <Form class="form" @submit="onSubmit" v-slot="{ setFieldValue, setValues }" :validation-schema="HexSchema()">
         <div class="form-title text-blue-500">
           Pick HEX
@@ -23,26 +23,29 @@
         </div>
       </Form>
     </div>
-    <div class="shadow-2xl rounded-md px-4 py-4 mt-10">
-      <div>{{ resultCode }}</div>
-      <div>
-        {{ resultText }}
+    <transition name="fade">
+      <div class="shadow-2xl bg-white	rounded-md px-4 py-4 mt-10" v-show="currentHEX">
+        <div>
+          <input type="text" class="input" :value="resultMessage.Code">
+        </div>
+        <div>
+          {{ resultMessage.Text }}
+        </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 <script setup lang="ts">
 import {Form, Field, ErrorMessage} from "vee-validate"
 
 const currentHEX = ref<string>()
-const resultText = ref<string>()
-const resultCode = ref<string>()
-const onSubmit = (value: { hex: string }) => {
-  currentHEX.value = value.hex
-}
-watch(currentHEX, () => {
-  //document.body.style.background = currentHEX.value as string
-  console.log(currentHEX.value)
+const resultMessage = reactive<{ Text: string, Code: string }>({
+  Text: "",
+  Code: "",
+})
+const Calc = () => {
+
+
   const rgb = hexToRgb(currentHEX.value as string);
 
 
@@ -53,30 +56,27 @@ watch(currentHEX, () => {
   let lossMsg;
 
 
-  switch (result) {
-    case result.loss < 1: {
-      lossMsg = "This is a perfect result.";
-      break
-    }
-    case result.loss < 5: {
-      lossMsg = "The is close enough.";
-      break
-    }
-    case result.loss < 15: {
-      lossMsg = "The color is somewhat off. Consider running it again.";
-      break
-    }
-    default:
-      lossMsg = "The color is extremely off. Run it again!";
+  if (result.loss < 1) {
+    lossMsg = "This is a perfect result.";
+  } else if (result.loss < 5) {
+    lossMsg = "The is close enough.";
+  } else if (result.loss < 15) {
+    lossMsg = "The color is somewhat off. Consider running it again.";
+  } else {
+    lossMsg = "The color is extremely off. Run it again!";
   }
 
-  // $(".realPixel").css("background-color", color.toString());
-  // $(".filterPixel").attr("style", result.filter);
+  resultMessage.Code= result.filter;
+  resultMessage.Text= `Loss: ${result.loss.toFixed(1)}. ${lossMsg}`
 
-  resultCode.value = result.filter;
-  resultText.value = `Loss: ${result.loss.toFixed(1)}. ${lossMsg}`
+}
+const onSubmit = (value: { hex: string }) => {
+  currentHEX.value = value.hex
+  Calc()
+}
 
-})
+
+
 </script>
 
 <style scoped lang="less">
